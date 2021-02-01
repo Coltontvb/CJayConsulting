@@ -8,10 +8,10 @@ paypal.configure({
     'client_secret': `${process.env.PP_SID}` // provide your client secret here 
   });
 
-router.get(`/purchase`, (req, res) => {
+router.post(`/purchase`, (req, res) => {
         // create payment object 
-        var payment = {
-                "intent": "authorize",
+        var create_payment = {
+        "intent": "sale",
         "payer": {
             "payment_method": "paypal"
         },
@@ -20,32 +20,57 @@ router.get(`/purchase`, (req, res) => {
             "cancel_url": `${process.env.PP_CURL}`
         },
         "transactions": [{
-            "amount": {
-                "total": 99.99,
-                "currency": "USD"
+            "item_list": {
+                "items": [{
+                    "name": "IT Consulting",
+                    "sku": "pd_1_0_0",
+                    "price": "99.99",
+                    "currency": "USD",
+                    "quantity": 1
+                }]
             },
-            "description": "CJay IT Consulting Session"
+            "amount": {
+                "currency": "USD",
+                "total": "99.99"
+            },
+            "description": "This is the payment description."
         }]
-        }
+    };
         //Make the payment
-        createPay(payment).then(
-            (transaction) => {
-                let id = transaction.id;
-                let links = transaction.links;
-                let counter = links.length;
-                while (counter --){
-                    if (links[counter].method == `REDIRECT`) {
-                        return res.redirect(links[counter].href);
+        paypal.payment.create(create_payment, (err, payment) => {
+            if (err){
+                console.log(err)
+            } else {
+                if(payment.payer.payment_method === `paypal`){
+                    req.paymentId = payment.id;
+                    var r_url;
+                    console.log(payment);
+                    for (var i=0; i<payment.links.length; i++){
+                        var link = payment.links[i];
+                        if (link.method === `REDIRECT`) {
+                            r_url = link.href;
+                        }          
                     }
                 }
+                res.redirect(r_url);
             }
-        ).catch( (err) => {
-            console.log(err);
-            res.redirect(`/payment/payment-error`);
         });
 });
 
 router.get(`/payment-success`, (req, res) => {
+    var paymentId = req.query.paymentId;
+    var payerId = {'payer_id': req.query.PayerID};
+    paypal.payment.execute(paymentId, payerId, (err, payment) => {
+        if (err){
+            console.log(err);
+        } else {
+            if (payment.state == 'approved'){
+                res.render(`payment/payment-success`);
+            } else {
+                res.redirect(`payment/payment-error`);
+            }
+        }
+    })
     res.render(`payment/payment-success`);
 });
 
@@ -53,18 +78,5 @@ router.get(`/payment-error`, (req, res) => {
     res.render(`payment/payment-error`);
 });
 
-// helper functions 
-const createPay = ( payment ) => {
-    return new Promise( ( resolve , reject ) => {
-        paypal.payment.create( payment , (err, payment) => {
-         if ( err ) {
-             reject(err); 
-         }
-        else {
-            resolve(payment); 
-        }
-        }); 
-    });
-}	
 
 module.exports = router;

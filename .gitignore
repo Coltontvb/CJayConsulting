@@ -1,4 +1,3 @@
 # Exclude
-public/images
 node_modules/
 *.env
