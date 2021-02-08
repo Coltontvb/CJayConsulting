@@ -3,7 +3,7 @@ const paypal = require(`paypal-rest-sdk`);
 
 // configure paypal with the credentials you got when you created your paypal app
 paypal.configure({
-    'mode': `${process.env.PP_MODE}`, //sandbox or live 
+    'mode': `sandbox`, //sandbox or live 
     'client_id': `${process.env.PP_CID}`, // please provide your client id here 
     'client_secret': `${process.env.PP_SID}` // provide your client secret here 
   });
