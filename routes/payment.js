@@ -74,7 +74,7 @@ router.get(`/payment-success`, (req, res) => {
     res.render(`payment/payment-success`);
 });
 
-router.get(`/payment-error`, (req, res) => {
+router.get(`payment/payment-error`, (req, res) => {
     res.render(`payment/payment-error`);
 });
 
