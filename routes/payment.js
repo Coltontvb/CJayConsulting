@@ -4,8 +4,8 @@ const paypal = require(`paypal-rest-sdk`);
 // configure paypal with the credentials you got when you created your paypal app
 paypal.configure({
     'mode': `${process.env.PP_MODE}`, //sandbox or live 
-    'client_id': `${process.env.PP_CID}`, // please provide your client id here 
-    'client_secret': `${process.env.PP_SID}` // provide your client secret here 
+    'client_id': `AXrfGv0jRfcl3HDkx-OQ62hL67dd7jOwi5Y_LCBBWN9U9xvP6UpUt6c4WUsA7aBSV-ibWncszDLs6dMA`, // please provide your client id here 
+    'client_secret': `EC8l_v6YsWZDna1VqguCzcsOAlbm_keykvTJsYpeVkhZ60dLJ5owVPrfzJ_XXpbLmX7uprw96-378Byf` // provide your client secret here 
   });
 
 router.post(`/purchase`, (req, res) => {
