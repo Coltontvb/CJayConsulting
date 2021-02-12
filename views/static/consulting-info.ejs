@@ -13,9 +13,9 @@
             <p>
                 We hope you choose us today, so that we may ease your transitions, whatever they may be.Best of all you save the initial consulting fee when you complete a signed project with us!
             </p>
-            <form id="pay-btn-form" method="POST" action="payment/purchase">
-                <button type="submit" style="background-color: lightblue">Book Now! $99.99</button>
-            </form>
+            <button id="checkoutBtn">Checkout $99.99</button>      
         </div>
     </div>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="/public/js/front-checkout.js"></script>
 <%- include(`../partials/footer`) -%>
