@@ -19,7 +19,7 @@ router.post('/create-checkout-session', async (req, res) => {
       ],
       mode: 'payment',
       success_url: `${process.env.YOUR_DOMAIN}payment/payment-success`,
-      cancel_url: `${process.env.YOUR_DOMAIN}payment/payment-success`,
+      cancel_url: `${process.env.YOUR_DOMAIN}payment/payment-error`,
     });
     res.json({ id: session.id });
   });
