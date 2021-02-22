@@ -18,6 +18,8 @@ const staticRouter = require(`./routes/static`);
 const paymentsRouter = require(`./routes/payment`);
 app.use(`/payment`, paymentsRouter);
 app.use(`/`, staticRouter);
+app.use(`/web-sol`, staticRouter);
+app.use(`/hardware-req`, staticRouter);
 
 //Run up server with npm start or nodemon server.js
 app.listen(port, () => {

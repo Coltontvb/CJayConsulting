@@ -13,6 +13,13 @@ router.get(`/contact`, (req, res) => {
 router.get(`/consulting-info`, (req, res) => {
     res.render("static/consulting-info");
 });
+router.get(`/hardware-requirements`, (req, res) => {
+    res.render("static/hardware-req");
+});
+router.get(`/web-software`, (req, res) => {
+    res.render("static/web-sol");
+});
+
 
 module.exports = router;
 
